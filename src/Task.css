@@ -1,0 +1,18 @@
+.tableTasks{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Estilos para las celdas de la tabla */
+th, td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
+
+}
+
+/* Estilos para las celdas de encabezado */
+th {
+  background-color: #2d2a2a;
+  
+}

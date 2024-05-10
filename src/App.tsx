@@ -8,6 +8,7 @@ function App() {
   return ( //siempre un componente retorna algo
     <>
       <Header title="Main page" subtitle="esto es un subtitulo"/> 
+      
       <Form />
       <CountButton></CountButton>
       <p>

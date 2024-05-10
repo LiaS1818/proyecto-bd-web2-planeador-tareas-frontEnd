@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import Data from "./Data"; 
+import Task from "./Task";
 import Error from "./Error";
 import "../Form.css"
 import { set } from "mongoose";
@@ -18,12 +19,12 @@ function Form() {
   const [showData, setShowData] = useState<boolean>(false)
 const [loginError, setLoginError] = useState<boolean>(false)
 const [user, setUser] = useState<any>(null)
-
+const [userTasks, setUserTasks] = useState<any[]>([])
 useEffect(() => {
-  if (email.includes("ñ")) {
-    console.log("tiene Ñ >:(")
-  }
-}, [email]
+  const userInStorageString = window.localStorage.getItem("user")
+  const userInStorage = JSON.parse(userInStorageString)
+  setUser(userInStorage)
+}, []
 );
 // patron de diseño Curry | Curried function
 const handleOnInputChange = (stateUpdate) => {
@@ -51,6 +52,7 @@ const logIn = async ({email, password}: {email: string, password: string}) => {
       loginData.password = data.user.password
       setLoginError(false)
       setShowData(true)
+      fetchCategory()
       
     }else{
       setLoginError(true);
@@ -59,6 +61,20 @@ const logIn = async ({email, password}: {email: string, password: string}) => {
   
   }catch(error){
     console.error(error)
+  }
+}
+
+const fetchCategory = async () => {
+  try{
+    const response = await fetch (`${API_URL}api/v1/task`, {
+      headers: {
+        'Authorization': `Bearer ${user.token}`
+      }
+    })
+    const data = await response.json()
+    setUserTasks(data)
+  }catch(error){
+    console.log(error)  
   }
 }
 const handleOnClick = () => {
@@ -77,10 +93,24 @@ const handleOnClick = () => {
   //toggle the flag
 }
 
-  return(
-    <>
-      
-      <section className="formContainer">
+return(
+  <>
+    {
+      user && (
+        <section className="dataContainer">
+        {
+      //si es true, pasa y hace la funcion, si no, se la brinca
+          <>
+          <p>Name: {user.user.name}</p>
+          <p>Email: {user.user.email}</p>  
+          </>
+    //renderice lo que se capturo en el formulario
+        }
+        </section>
+      )
+    }
+    {showData && <Task tasks={userTasks} />} {/* Renderiza el componente de tareas con las tareas del usuario */}
+    <section className="formContainer">
         <span className="inputContainer">
           <label className="" htmlFor="name">Email:</label>
           <input type="email" id="email" name="email" value={email}  onChange={handleOnInputChange(setEmail)}/>
@@ -94,7 +124,6 @@ const handleOnClick = () => {
         </button>
       </section>
       {loginError && <Error message="Usuario o contraseña incorrectos" /> }
-      {showData && <Data email={loginData.email} password={loginData.password} showData={showData} ></Data> }
     </>
   );
 }
