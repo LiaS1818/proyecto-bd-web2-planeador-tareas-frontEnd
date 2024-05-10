@@ -1,11 +1,25 @@
 .formContainer{
   display: flex;
   flex-direction: column;
-
+  border: 1px solid white;
+  border-radius: 1rem;
   gap: 2rem;
+  padding: 2rem;
+  background-color: white;
+  box-shadow: 0 0 15px rgb(187, 134, 134); /* Sombra ligera */
+  background-color: rgba(255, 255, 255, 0.367);
 }
 
 .inputContainer {
   display: flex;
   justify-content: space-between;
+
+  label {
+    margin-right: 1rem;
+    font-weight: bold;
+  }
+  input{
+  background-color: rgba(255, 255, 255, 0.367);
+  border: none;
+  }
 }
