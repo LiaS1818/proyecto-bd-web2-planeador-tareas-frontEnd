@@ -67,7 +67,7 @@ const handleOnClick = () => {
     setShowData(true);
     setLoginError(false);
   }else{
-    
+    logIn({email, password})
     setShowData(false);
     setLoginError(true);
   }
