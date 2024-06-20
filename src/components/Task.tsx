@@ -1,30 +1,23 @@
 import React from 'react';
-import '../Task.css'
+import '../Task.css';
 
 const Task = ({ tasks }) => {
   return (
-    <div>
+    <div className="task-container">
       <h2>Tareas del Usuario</h2>
-      <table className='tableTasks'>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Titulo</th>
-            <th>Descripción</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tasks.map(task => (
-            <tr key={task.id}>
-              <td>{task.id}</td>
-              <td>{task.name}</td>
-              <td>{task.description}</td>
-              <td>{task.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="task-cards">
+        {tasks.map((task, index) => (
+          <div key={index} className="task-card">
+            <div className="task-header">
+              <h3>{task.name}</h3>
+              <p>Status: {task.status}</p>
+            </div>
+            <div className="task-content">
+              <p>{task.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
